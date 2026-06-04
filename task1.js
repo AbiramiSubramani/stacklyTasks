@@ -22,7 +22,7 @@ console.log(country);
 // Task 3
 
 var userName = prompt("What is your name?");
-console.log("Welcome, " + userName);
+console.log("Welcome " + userName);
 
 
 // Task 4
