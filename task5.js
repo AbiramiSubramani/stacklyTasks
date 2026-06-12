@@ -54,7 +54,6 @@ function grade(mark) {
 
 }
 
-
 console.log("Student Grades:");
 for (let studentMark of studentObj) {
   console.log(studentMark.name + "-" + grade(studentMark.mark));
