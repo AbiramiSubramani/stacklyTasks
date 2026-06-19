@@ -6,7 +6,7 @@ const cartItems = document.querySelector("#cartItems");
 const stats = document.querySelector("#stats");
 const status = document.querySelector("#status");
 function toggleCart() {
-    document.getElementById("cartPanel").classList.toggle("hidden");
+document.getElementById("cartPanel").classList.toggle("hidden");
 }
 let products = [];
 let cart = [];
@@ -138,22 +138,6 @@ function displayStatistics(data) {
 `;
 }
 
-/* ADD TO CART */
-// function addToCart(id) {
-
-//     let existingProduct = cart.find(item => item.id === id);
-
-//     if (existingProduct) {
-//         alert("Already added to cart!");
-//         return;
-//     }
-
-//     let product = products.find(item => item.id === id);
-
-//     cart.push(product);
-
-//     updateCart();
-// }
 
 
 function addToCart(id) {
@@ -182,24 +166,7 @@ function removeFromCart(id) {
     updateCart();
 }
 
-/* UPDATE CART */
-// function updateCart() {
 
-//     cartCount.textContent = cart.length;
-
-//     cartItems.innerHTML = "";
-
-//     cart.forEach(item => {
-//         cartItems.innerHTML += `
-//         <div class="cart-item">
-//             <span>${item.title}</span>
-//             <button class="remove-btn" onclick="removeFromCart(${item.id})">
-//                 Remove
-//             </button>
-//         </div>
-//         `;
-//     });
-// }
 function updateCart() {
 
     let total = 0;
