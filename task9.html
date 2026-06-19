@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+ <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>E-Commerce</title>
         <link rel="stylesheet" href="task9.css">
 </head>
 <body>
         <header>
                 <h1>E-Commerce Product Dashboard </h1>
-                <div class="cart-box">
+                
+                <div class="cart-box"  onclick="toggleCart()">
                         Cart items:
                         <span id="cartCount">0</span>
                 </div>
@@ -25,7 +26,10 @@
         <option value="electronics">Electronics</option>
         <option value="jewelery">Jewlery</option>
     </select>
-
+<div id="cartPanel" class="cart-panel hidden">
+    <h2>Cart Items</h2>
+    <div id="cartItems"></div>
+</div>
 </div>
   <h2 id="status">Loading Products...</h2>
    <section id="stats"></section>
@@ -34,6 +38,60 @@
      <section class="cart-section">
         <h2>Cart Products</h2>
         <div id="cartItems"></div>
+        <script src="task9.js"></script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>E-Commerce</title>
+        <link rel="stylesheet" href="task9.css">
+</head>
+
+<body>
+
+        <header>
+                <h1>E-Commerce Product Dashboard </h1>
+
+                <div class="cart-box" onclick="toggleCart()">
+                        Cart items:
+                        <span id="cartCount">0</span>
+                </div>
+        </header>
+
+        <!-- SEARCH + CATEGORY -->
+        <div class="controls">
+
+            <input type="text" id="search" placeholder="Search Products...">
+
+            <select id="category">
+                <option value="all">All Categories</option>
+                <option value="men's clothing">Men's Clothing</option>
+                <option value="women's clothing">Women's Clothing</option>
+                <option value="electronics">Electronics</option>
+                <option value="jewelery">Jewelry</option>
+            </select>
+
+        </div>
+
+        <!-- STATUS -->
+        <h2 id="status">Loading Products...</h2>
+
+        <!-- STATS -->
+        <section id="stats"></section>
+
+        <!-- PRODUCTS -->
+        <section id="products"></section>
+
+        <!-- CART PANEL (FIXED POSITION OUTSIDE CONTROLS) -->
+        <div id="cartPanel" class="cart-panel hidden">
+            <h2>Cart Items</h2>
+            <div id="cartItems"></div>
+        </div>
+
         <script src="task9.js"></script>
 
 </body>

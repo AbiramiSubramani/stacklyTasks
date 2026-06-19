@@ -5,26 +5,12 @@ const cartCount = document.querySelector("#cartCount");
 const cartItems = document.querySelector("#cartItems");
 const stats = document.querySelector("#stats");
 const status = document.querySelector("#status");
-
+function toggleCart() {
+    document.getElementById("cartPanel").classList.toggle("hidden");
+}
 let products = [];
 let cart = [];
 
-/* FETCH PRODUCTS */
-// fetch("https://fakestoreapi.com/products")
-//     .then(res => res.json())
-//     .then(data => {
-//         products = data;
-//  console.log("ALL CATEGORIES:");
-//     console.log([...new Set(products.map(p => p.category))]);
-//         displayProducts(products);
-//         displayStatistics(products);
-
-//         status.textContent = "Products Loaded Successfully";
-//     })
-//     .catch(error => {
-//         console.log(error);
-//         status.textContent = "Failed To Load Products";
-//     });
 status.textContent = "Loading Products...";
 
 fetch("https://fakestoreapi.com/products")
@@ -85,7 +71,7 @@ function filterProducts() {
         );
     }
 
-    // SEARCH FIX (IMPORTANT)
+    // SEARCH 
     if (searchValue !== "") {
         filtered = filtered.filter(product =>
             product.title.toLowerCase().includes(searchValue) ||
@@ -109,49 +95,81 @@ function displayStatistics(data) {
         / data.length
     ).toFixed(2);
 
-    let highestPriceProduct = [...data].sort((a, b) => b.price - a.price)[0];
-    let lowestPriceProduct = [...data].sort((a, b) => a.price - b.price)[0];
+    // ✅ Highest price product
+    let highestPriceProduct = data.reduce((max, product) =>
+        product.price > max.price ? product : max
+    );
 
-    stats.innerHTML = `
-    <div class="stats-grid">
+    // ✅ Lowest price product
+    let lowestPriceProduct = data.reduce((min, product) =>
+        product.price < min.price ? product : min
+    );
 
-        <div class="stat-card">
-            <h3>Total Products</h3>
-            <p>${totalProducts}</p>
-        </div>
+   stats.innerHTML = `
+<div class="stats-grid">
 
-        <div class="stat-card">
-            <h3>Average Price</h3>
-            <p>$${averagePrice}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>Highest Price</h3>
-            <p>${highestPriceProduct.title}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>Lowest Price</h3>
-            <p>${lowestPriceProduct.title}</p>
-        </div>
-
+    <div class="stat-card">
+        <h3>Total Products</h3>
+        <p>${totalProducts}</p>
     </div>
-    `;
+
+    <div class="stat-card">
+        <h3>Average Price</h3>
+        <p>$${averagePrice}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Highest Price</h3>
+        <p>
+            ${highestPriceProduct.title}<br>
+            <b>$${highestPriceProduct.price}</b>
+        </p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Lowest Price</h3>
+        <p>
+            ${lowestPriceProduct.title}<br>
+            <b>$${lowestPriceProduct.price}</b>
+        </p>
+    </div>
+
+</div>
+`;
 }
 
 /* ADD TO CART */
+// function addToCart(id) {
+
+//     let existingProduct = cart.find(item => item.id === id);
+
+//     if (existingProduct) {
+//         alert("Already added to cart!");
+//         return;
+//     }
+
+//     let product = products.find(item => item.id === id);
+
+//     cart.push(product);
+
+//     updateCart();
+// }
+
+
 function addToCart(id) {
-
-    let existingProduct = cart.find(item => item.id === id);
-
-    if (existingProduct) {
-        alert("Already added to cart!");
-        return;
-    }
 
     let product = products.find(item => item.id === id);
 
-    cart.push(product);
+    let existing = cart.find(item => item.id === id);
+
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({
+            ...product,
+            qty: 1
+        });
+    }
 
     updateCart();
 }
@@ -165,20 +183,79 @@ function removeFromCart(id) {
 }
 
 /* UPDATE CART */
+// function updateCart() {
+
+//     cartCount.textContent = cart.length;
+
+//     cartItems.innerHTML = "";
+
+//     cart.forEach(item => {
+//         cartItems.innerHTML += `
+//         <div class="cart-item">
+//             <span>${item.title}</span>
+//             <button class="remove-btn" onclick="removeFromCart(${item.id})">
+//                 Remove
+//             </button>
+//         </div>
+//         `;
+//     });
+// }
 function updateCart() {
 
-    cartCount.textContent = cart.length;
+    let total = 0;
+
+    cartCount.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
 
     cartItems.innerHTML = "";
 
     cart.forEach(item => {
+
+        total += item.price * item.qty;
+
         cartItems.innerHTML += `
         <div class="cart-item">
-            <span>${item.title}</span>
+
+            <span class="title">${item.title}</span>
+
+            <div class="qty-box">
+                <button onclick="decreaseQty(${item.id})">-</button>
+                <span>${item.qty}</span>
+                <button onclick="increaseQty(${item.id})">+</button>
+            </div>
+
+            <span class="price">
+                $${(item.price * item.qty).toFixed(2)}
+            </span>
+
             <button class="remove-btn" onclick="removeFromCart(${item.id})">
                 Remove
             </button>
+
         </div>
         `;
     });
+
+    cartItems.innerHTML += `
+        <h3 style="margin-top:10px;">
+            Total: $${total.toFixed(2)}
+        </h3>
+    `;
+}
+
+function increaseQty(id) {
+    let item = cart.find(p => p.id === id);
+    item.qty += 1;
+    updateCart();
+}
+function decreaseQty(id) {
+
+    let item = cart.find(p => p.id === id);
+
+    if (item.qty > 1) {
+        item.qty -= 1;
+    } else {
+        cart = cart.filter(p => p.id !== id);
+    }
+
+    updateCart();
 }
