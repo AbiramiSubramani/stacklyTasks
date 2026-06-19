@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="task9.css">
+</head>
+<body>
+        <header>
+                <h1>E-Commerce Product Dashboard </h1>
+                <div class="cart-box">
+                        Cart items:
+                        <span id="cartCount">0</span>
+                </div>
+        </header>
+ <div class="controls">
+
+    <input type="text" id="search" placeholder="Search Products...">
+
+    <select id="category">
+        <option value="all">All Categories</option>
+        <option value="men's clothing">Men's Clothing</option>
+        <option value="women's clothing">Women's Clothing</option>
+        <option value="electronics">Electronics</option>
+        <option value="jewelery">Jewlery</option>
+    </select>
+
+</div>
+  <h2 id="status">Loading Products...</h2>
+   <section id="stats"></section>
+
+    <section id="products"></section>
+     <section class="cart-section">
+        <h2>Cart Products</h2>
+        <div id="cartItems"></div>
+        <script src="task9.js"></script>
+
+</body>
+</html>
